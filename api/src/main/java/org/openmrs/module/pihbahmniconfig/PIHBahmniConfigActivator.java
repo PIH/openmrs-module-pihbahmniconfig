@@ -16,7 +16,11 @@ package org.openmrs.module.pihbahmniconfig;
 
 import org.apache.commons.logging.Log; 
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.ModuleActivator;
+
+import org.openmrs.module.metadatadeploy.api.MetadataDeployService;
+import org.openmrs.module.pihbahmniconfig.metadata.bundle.sierraLeone.SierraLeoneMetadataBundle;
 
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
@@ -50,6 +54,7 @@ public class PIHBahmniConfigActivator implements ModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
+		installMetadataBundles();
 		log.info("PIH Bahmni Config Module started");
 	}
 	
@@ -66,5 +71,17 @@ public class PIHBahmniConfigActivator implements ModuleActivator {
 	public void stopped() {
 		log.info("PIH Bahmni Config Module stopped");
 	}
-		
+
+
+	private void installMetadataBundles() {
+
+		MetadataDeployService deployService = Context.getService(MetadataDeployService.class);
+
+		// make this more dynamic, not just hardcoded for Sierra Leone
+
+
+			deployService.installBundle(Context.getRegisteredComponents(SierraLeoneMetadataBundle.class).get(0));
+
+
+	}
 }
